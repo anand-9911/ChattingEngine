@@ -1,16 +1,22 @@
 import React from 'react';
+import MainComponent from './components/MainComponent';
 import AddContact from './components/addContact/AddContact';
-import ListContact from './components/listContact/ListContact';
 import Alert from './components/layout/Alert';
+import { Router, Route, Switch } from 'react-router-dom';
+import history from './history';
 
 const App = () => {
   return (
     <>
-      <section className='container'>
+      <Router history={history}>
         <Alert />
-        <AddContact />
-        <ListContact />
-      </section>
+        <section className='ui container'>
+          <Switch>
+            <Route exact path='/' component={MainComponent} />
+            <Route exact path='/add-contact' component={AddContact} />
+          </Switch>
+        </section>
+      </Router>
     </>
   );
 };

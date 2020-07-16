@@ -1,5 +1,6 @@
 import { ERROR, ADD_USER, FETCH_USERS } from './types';
 import { setAlert } from './alert';
+import history from '../history';
 import axios from 'axios';
 
 export const addUser = (formData) => async (dispatch) => {
@@ -12,12 +13,14 @@ export const addUser = (formData) => async (dispatch) => {
     const res = await axios.post('api/user/', formData, config);
     dispatch({
       type: ADD_USER,
-      payload: res.data,
     });
+
+    history.push('/');
+    dispatch(setAlert('Contact Added', 'green'));
   } catch (error) {
     const errors = error.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'red')));
     }
     dispatch({
       type: ERROR,

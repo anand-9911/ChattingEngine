@@ -5,8 +5,8 @@ const ContactItem = ({ users }) =>
   users.map((user) => {
     return (
       <>
-        <div class='card'>
-          <div class='card-body'>{user.name}</div>
+        <div className='ui card'>
+          <div className='content'>{user.name}</div>
         </div>
       </>
     );

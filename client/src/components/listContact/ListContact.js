@@ -10,7 +10,7 @@ const ListContact = ({ fetchUsers, users, loading }) => {
     fetchUsers();
   }, [fetchUsers]);
 
-  if (users) {
+  if (users && !loading) {
     return (
       <>
         <ContactItem users={users} />
