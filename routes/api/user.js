@@ -68,4 +68,70 @@ router.get('/', async (req, res) => {
   }
 });
 
+//@route  DELETE api/user/
+//@desc   Delete User
+//@access Public
+
+router.delete('/:id', async (req, res) => {
+  try {
+    //Remove User
+    await Users.findOneAndRemove({ _id: req.params.id });
+    res.json({ msg: 'User removed' });
+  } catch (error) {
+    if (error.kind === 'ObjectId') {
+      return res.status(400).json({ mgs: 'User Not Found' });
+    }
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+//@route  PUT api/user
+//@desc   Edit
+//@access Public
+
+router.put(
+  '/:id',
+  [
+    check('name', 'Name is required').not().isEmpty(),
+    check('email', 'Please enter valid email').isEmail(),
+    check('phone', 'Please enter PhoneNumber').not().isEmpty(),
+    check('company', 'Please enter your Company Name').not().isEmpty(),
+    check('address', 'Please enter valid address').not().isEmpty(),
+  ],
+
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { name, email, phone, company, address } = req.body;
+    const userFields = {};
+    userFields.name = name;
+    userFields.email = email;
+    userFields.phone = phone;
+    userFields.company = company;
+    userFields.address = address;
+
+    try {
+      let user = await Users.findOne({ _id: req.params.id });
+      if (user) {
+        user = await Users.findOneAndUpdate(
+          { _id: req.params.id },
+          { $set: userFields },
+          { new: true }
+        );
+        return res.json(user);
+      }
+      return res.json('User Not exist');
+    } catch (error) {
+      if (error.kind === 'ObjectId') {
+        return res.status(400).json({ mgs: 'User Not Found' });
+      }
+      console.log(error.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
 module.exports = router;

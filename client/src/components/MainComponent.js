@@ -1,5 +1,4 @@
 import React from 'react';
-import AddContact from './addContact/AddContact';
 import { Link } from 'react-router-dom';
 import ListContact from './listContact/ListContact';
 
