@@ -22,12 +22,15 @@ const Navbar = ({ users, loginUser }) => {
 
   return (
     <>
-      <Menu vertical>
-        <Dropdown item text='Select User'>
-          <Dropdown.Menu>{renderUsers()}</Dropdown.Menu>
-        </Dropdown>
-        <div>{selectedName}</div>
-      </Menu>
+      <div>
+        {' '}
+        <Menu vertical>
+          <Dropdown item text='Select User'>
+            <Dropdown.Menu>{renderUsers()}</Dropdown.Menu>
+          </Dropdown>
+          <div>{selectedName}</div>
+        </Menu>
+      </div>
     </>
   );
 };

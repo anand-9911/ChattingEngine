@@ -18,32 +18,40 @@ const App = ({ user, isSelected, isChatWindowOpen, fetchUsers, chatUser }) => {
   }, [fetchUsers]);
   return (
     <>
-      <Router history={history}>
-        <Navbar />
-        <Alert />
-        <div className='ui container'>
-          <div className='ui grid'>
-            <div className='eight wide column'>
-              <Switch>
-                <Route exact path='/' component={MainComponent} />
-                <Route exact path='/add-contact' component={AddContact} />
-                <Route exact path='/edit-contact' component={EditContact} />
-                <Route exact path='/delete-contact' component={DeleteContact} />
-              </Switch>
-            </div>
-            <div className='eight wide column'>
-              {isSelected && (
-                <div>
+      <div className='background'>
+        {' '}
+        <Router history={history}>
+          <Navbar />
+          <Alert />
+          <div className='ui container'>
+            <div className='ui grid'>
+              <div className='eight wide column'>
+                <Switch>
+                  <Route exact path='/' component={MainComponent} />
+                  <Route exact path='/add-contact' component={AddContact} />
+                  <Route exact path='/edit-contact' component={EditContact} />
+                  <Route
+                    exact
+                    path='/delete-contact'
+                    component={DeleteContact}
+                  />
+                </Switch>
+              </div>
+              <div className='eight wide column'>
+                {isSelected && (
                   <div>
-                    <DisplayContact user={user} />
+                    <div>
+                      <br />
+                      <DisplayContact user={user} />
+                    </div>
                   </div>
-                </div>
-              )}
-              {isChatWindowOpen && <div>Chat Window:- {chatUser.name}</div>}
+                )}
+                {isChatWindowOpen && <div>Chat Window:- {chatUser.name}</div>}
+              </div>
             </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </div>
     </>
   );
 };
