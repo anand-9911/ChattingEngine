@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { selectedUser } from '../../actions/user';
+import { selectedUser, chatWindowOpen } from '../../actions/user';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +10,17 @@ const onUserClick = (user, selectedUser) => {
   }
 };
 
-const ContactItem = ({ users, selectedUser, isAuth, loggedUser }) =>
+const onChatClick = (user, chatWindowOpen) => {
+  if (user.name) chatWindowOpen(user);
+};
+
+const ContactItem = ({
+  users,
+  selectedUser,
+  isAuth,
+  loggedUser,
+  chatWindowOpen,
+}) =>
   users.map((user) => {
     return (
       <>
@@ -21,7 +31,13 @@ const ContactItem = ({ users, selectedUser, isAuth, loggedUser }) =>
             onClick={(e) => onUserClick(user, selectedUser)}>
             View
           </button>
-          <button className='ui primary basic button'>Chat</button>
+          {isAuth && user.name !== loggedUser.name && (
+            <button
+              className='ui primary basic button'
+              onClick={(e) => onChatClick(user, chatWindowOpen)}>
+              Chat
+            </button>
+          )}
         </div>
         {isAuth && user.name === loggedUser.name && (
           <>
@@ -45,6 +61,7 @@ ContactItem.propTypes = {
   selectedUser: PropTypes.func.isRequired,
   isAuth: PropTypes.bool.isRequired,
   loggedUser: PropTypes.object.isRequired,
+  chatWindowOpen: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -52,4 +69,6 @@ const mapStateToProps = (state) => ({
   loggedUser: state.userReducer.loggedUser,
 });
 
-export default connect(mapStateToProps, { selectedUser })(ContactItem);
+export default connect(mapStateToProps, { selectedUser, chatWindowOpen })(
+  ContactItem
+);

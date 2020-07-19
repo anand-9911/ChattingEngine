@@ -6,6 +6,7 @@ import {
   LOGIN_USER,
   DELETE_USER,
   EDIT_USER,
+  CHAT_WINDOW,
 } from './types';
 import { setAlert } from './alert';
 import history from '../history';
@@ -59,6 +60,23 @@ export const selectedUser = (user) => async (dispatch) => {
   try {
     dispatch({
       type: SELECTED_USER,
+      payload: user,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: {
+        mgs: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
+export const chatWindowOpen = (user) => async (dispatch) => {
+  try {
+    dispatch({
+      type: CHAT_WINDOW,
       payload: user,
     });
   } catch (error) {

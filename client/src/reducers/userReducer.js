@@ -6,14 +6,17 @@ import {
   LOGIN_USER,
   EDIT_USER,
   DELETE_USER,
+  CHAT_WINDOW,
 } from '../actions/types';
 
 const initialState = {
   users: [],
   user: {},
+  chatUser: {},
   loading: true,
   error: {},
   isSelected: false,
+  isChatWindowOpen: false,
   loggedUser: {},
   isAuth: false,
 };
@@ -39,6 +42,12 @@ export default function (state = { initialState }, action) {
         user: payload,
         loading: false,
         isSelected: true,
+      };
+    case CHAT_WINDOW:
+      return {
+        ...state,
+        chatUser: payload,
+        isChatWindowOpen: true,
       };
     case LOGIN_USER:
       return {

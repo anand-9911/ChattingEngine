@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import MainComponent from './components/MainComponent';
 import AddContact from './components/addContact/AddContact';
 import EditContact from './components/editContact/EditContact';
@@ -7,11 +7,15 @@ import Alert from './components/layout/Alert';
 import { Router, Route, Switch } from 'react-router-dom';
 import history from './history';
 import Navbar from './components/layout/Navbar';
+import { fetchUsers } from './actions/user';
 import './App.css';
 import DisplayContact from './components/listContact/DisplayContact';
 import { connect } from 'react-redux';
 
-const App = ({ user, isSelected }) => {
+const App = ({ user, isSelected, isChatWindowOpen, fetchUsers, chatUser }) => {
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
   return (
     <>
       <Router history={history}>
@@ -28,7 +32,14 @@ const App = ({ user, isSelected }) => {
               </Switch>
             </div>
             <div className='eight wide column'>
-              {isSelected && <DisplayContact user={user} />}
+              {isSelected && (
+                <div>
+                  <div>
+                    <DisplayContact user={user} />
+                  </div>
+                </div>
+              )}
+              {isChatWindowOpen && <div>Chat Window:- {chatUser.name}</div>}
             </div>
           </div>
         </div>
@@ -40,6 +51,8 @@ const App = ({ user, isSelected }) => {
 const mapStateToProps = (state) => ({
   user: state.userReducer.user,
   isSelected: state.userReducer.isSelected,
+  isChatWindowOpen: state.userReducer.isChatWindowOpen,
+  chatUser: state.userReducer.chatUser,
 });
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, { fetchUsers })(App);
