@@ -3,6 +3,7 @@ import MainComponent from './components/MainComponent';
 import AddContact from './components/addContact/AddContact';
 import EditContact from './components/editContact/EditContact';
 import DeleteContact from './components/deleteContact/DeleteContact';
+import Layout from './components/Layout';
 import Alert from './components/layout/Alert';
 import { Router, Route, Switch } from 'react-router-dom';
 import history from './history';
@@ -12,20 +13,26 @@ import './App.css';
 import DisplayContact from './components/listContact/DisplayContact';
 import { connect } from 'react-redux';
 
-const App = ({ user, isSelected, isChatWindowOpen, fetchUsers, chatUser }) => {
+const App = ({
+  user,
+  isSelected,
+  isChatWindowOpen,
+  fetchUsers,
+  loggedUser,
+}) => {
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
   return (
     <>
-      <div className='background'>
+      <div>
         {' '}
         <Router history={history}>
           <Navbar />
           <Alert />
           <div className='ui container'>
             <div className='ui grid'>
-              <div className='eight wide column'>
+              <div className='three wide column'>
                 <Switch>
                   <Route exact path='/' component={MainComponent} />
                   <Route exact path='/add-contact' component={AddContact} />
@@ -37,16 +44,21 @@ const App = ({ user, isSelected, isChatWindowOpen, fetchUsers, chatUser }) => {
                   />
                 </Switch>
               </div>
-              <div className='eight wide column'>
+              <div className='five wide column'>
                 {isSelected && (
                   <div>
                     <div>
+                      <br />
                       <br />
                       <DisplayContact user={user} />
                     </div>
                   </div>
                 )}
-                {isChatWindowOpen && <div>Chat Window:- {chatUser.name}</div>}
+              </div>
+              <div className='eight wide column'>
+                <br />
+                <br />
+                {isChatWindowOpen && <Layout user={loggedUser} />}
               </div>
             </div>
           </div>
@@ -58,6 +70,7 @@ const App = ({ user, isSelected, isChatWindowOpen, fetchUsers, chatUser }) => {
 
 const mapStateToProps = (state) => ({
   user: state.userReducer.user,
+  loggedUser: state.userReducer.loggedUser,
   isSelected: state.userReducer.isSelected,
   isChatWindowOpen: state.userReducer.isChatWindowOpen,
   chatUser: state.userReducer.chatUser,

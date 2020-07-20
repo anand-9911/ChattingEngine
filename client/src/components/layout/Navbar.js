@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/user';
-const Navbar = ({ users, loginUser, isAuth }) => {
+const Navbar = ({ users, loginUser, isAuth, isSelected, isChatWindowOpen }) => {
   const renderUsers = () =>
     users &&
     users.map((user) => {
@@ -24,11 +24,14 @@ const Navbar = ({ users, loginUser, isAuth }) => {
     <>
       <div>
         {' '}
-        <Menu vertical>
+        <Menu color='violet' inverted widths={5}>
           <Dropdown item text='Select User'>
             <Dropdown.Menu>{renderUsers()}</Dropdown.Menu>
           </Dropdown>
-          <div>{isAuth ? selectedName : 'None'}</div>
+
+          <Menu.Item>
+            <div>{isAuth ? selectedName : 'None'}</div>
+          </Menu.Item>
         </Menu>
       </div>
     </>
@@ -38,6 +41,8 @@ const Navbar = ({ users, loginUser, isAuth }) => {
 const mapStateToProps = (state) => ({
   users: state.userReducer.users,
   isAuth: state.userReducer.isAuth,
+  isSelected: state.userReducer.isSelected,
+  isChatWindowOpen: state.userReducer.isChatWindowOpen,
 });
 
 export default connect(mapStateToProps, { loginUser })(Navbar);
