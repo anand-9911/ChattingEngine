@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/user';
-const Navbar = ({ users, loginUser }) => {
+const Navbar = ({ users, loginUser, isAuth }) => {
   const renderUsers = () =>
     users &&
     users.map((user) => {
@@ -28,7 +28,7 @@ const Navbar = ({ users, loginUser }) => {
           <Dropdown item text='Select User'>
             <Dropdown.Menu>{renderUsers()}</Dropdown.Menu>
           </Dropdown>
-          <div>{selectedName}</div>
+          <div>{isAuth ? selectedName : 'None'}</div>
         </Menu>
       </div>
     </>
@@ -37,6 +37,7 @@ const Navbar = ({ users, loginUser }) => {
 
 const mapStateToProps = (state) => ({
   users: state.userReducer.users,
+  isAuth: state.userReducer.isAuth,
 });
 
 export default connect(mapStateToProps, { loginUser })(Navbar);

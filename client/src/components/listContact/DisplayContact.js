@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import avatar from '../../images/avatar.png';
 
 const DisplayContact = ({ user: { name, email, phone, company, address } }) => {
   return (
     <>
       <div className='ui card'>
         <div class='image'>
-          <img src={avatar} alt='avatar' />
+          <img src={`https://ui-avatars.com/api/?name=${name}`} alt='avatar' />
         </div>
         <div className='content'>
           <div className='header'>{name}</div>

@@ -19,7 +19,7 @@ export const addUser = (formData) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     };
-    const res = await axios.post('api/user/', formData, config);
+    await axios.post('api/user/', formData, config);
     dispatch({
       type: ADD_USER,
     });
@@ -117,6 +117,7 @@ export const deleteUser = (id) => async (dispatch) => {
     });
     history.push('/');
     dispatch(setAlert('Contact Deleted', 'red'));
+    dispatch(fetchUsers());
   } catch (error) {
     dispatch({
       type: ERROR,

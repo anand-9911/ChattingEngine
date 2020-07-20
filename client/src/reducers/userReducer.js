@@ -59,15 +59,27 @@ export default function (state = { initialState }, action) {
     case DELETE_USER:
       return {
         ...state,
+        user: {},
+        chatUser: {},
+        loading: true,
+        error: {},
+        isSelected: false,
+        isChatWindowOpen: false,
         loggedUser: null,
-        loading: false,
         isAuth: false,
       };
+
     case ERROR:
       return {
         ...state,
         loading: false,
         users: null,
+        user: {},
+        chatUser: {},
+        isSelected: false,
+        isChatWindowOpen: false,
+        loggedUser: {},
+        isAuth: false,
         error: payload,
       };
     default:
